@@ -24,11 +24,34 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
+
+
+                                     <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
                                     Dashboard
+                                </NavLink> 
+
+                                     <NavLink
+                                    href={route('projects.index')}
+                                    active={route().current('projects.index')}
+                                >
+                                    Project
+                                </NavLink> 
+
+                                  <NavLink
+                                    href={route('tasks.index')}
+                                    active={route().current('tasks.index')}
+                                >
+                                   All task
+                                </NavLink>
+                                
+                                 <NavLink
+                                    href={route('users.index')}
+                                    active={route().current('users.index')}
+                                >
+                                    user
                                 </NavLink>
                             </div>
                         </div>
@@ -66,12 +89,24 @@ export default function AuthenticatedLayout({ header, children }) {
                                         >
                                             Profile
                                         </Dropdown.Link>
+                                        <Dropdown.Link as="button" onClick={() => {
+                                            const isDark = document.documentElement.classList.toggle('dark');
+                                            try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch(e) {}
+                                        }}>
+                                            Toggle Theme
+                                        </Dropdown.Link>
+                                       
                                         <Dropdown.Link
                                             href={route('logout')}
                                             method="post"
                                             as="button"
                                         >
                                             Log Out
+                                        </Dropdown.Link>
+                                           <Dropdown.Link
+                                            href={route('profile.edit')}
+                                        >
+                                            Profile
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
@@ -133,6 +168,26 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('dashboard')}
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('projects.index')}
+                            active={route().current('projects.index')}
+                        >
+                            Projects
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            href={route('tasks.index')}
+                            active={route().current('tasks.index')}
+                        >
+                            Tasks
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            href={route('users.index')}
+                            active={route().current('users.index')}
+                        >
+                            Users
                         </ResponsiveNavLink>
                     </div>
 

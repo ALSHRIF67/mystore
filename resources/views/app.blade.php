@@ -1,6 +1,20 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
-    <head>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+        {{-- Theme initialization script: applies dark class early to avoid FOUC --}}
+        <script>
+            (function() {
+                try {
+                    var theme = localStorage.getItem('theme');
+                    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (theme === 'dark' || (!theme && prefersDark)) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                } catch (e) {}
+            })();
+        </script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
