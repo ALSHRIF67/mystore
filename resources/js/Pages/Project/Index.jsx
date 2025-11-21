@@ -1,23 +1,7 @@
 import { Head } from "@inertiajs/react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Index({ auth, projects, filters = {} }) {
-    const currentSort = filters.sort_by || null;
-    const currentDir = filters.sort_dir || 'desc';
-
-    function sortLink(column) {
-        const base = projects.path || route('projects.index');
-        const params = new URLSearchParams();
-        const nextDir = currentSort === column && currentDir === 'asc' ? 'desc' : 'asc';
-        params.set('sort_by', column);
-        params.set('sort_dir', nextDir);
-        return `${base}?${params.toString()}`;
-    }
-
-    function sortIndicator(column) {
-        if (currentSort !== column) return null;
-        return currentDir === 'asc' ? ' ▲' : ' ▼';
-    }
+export default function Index({ auth, projects }) {
     return (
         <AuthenticatedLayout
             header={
@@ -35,34 +19,16 @@ export default function Index({ auth, projects, filters = {} }) {
                             <table className="min-w-full divide-y divide-gray-200 text-xs">
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('id')} className="hover:underline">ID{sortIndicator('id')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('name')} className="hover:underline">Name{sortIndicator('name')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('description')} className="hover:underline">Description{sortIndicator('description')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('due_date')} className="hover:underline">Due Date{sortIndicator('due_date')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('status')} className="hover:underline">Status{sortIndicator('status')}</a>
-                                        </th>
+                                        <th className="px-2 py-2">ID</th>
+                                        <th className="px-2 py-2">Name</th>
+                                        <th className="px-2 py-2">Description</th>
+                                        <th className="px-2 py-2">Due Date</th>
+                                        <th className="px-2 py-2">Status</th>
                                         <th className="px-2 py-2">Image</th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('created_by')} className="hover:underline">Created By{sortIndicator('created_by')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('updated_by')} className="hover:underline">Updated By{sortIndicator('updated_by')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('created_at')} className="hover:underline">Created At{sortIndicator('created_at')}</a>
-                                        </th>
-                                        <th className="px-2 py-2">
-                                            <a href={sortLink('updated_at')} className="hover:underline">Updated At{sortIndicator('updated_at')}</a>
-                                        </th>
+                                        <th className="px-2 py-2">Created By</th>
+                                        <th className="px-2 py-2">Updated By</th>
+                                        <th className="px-2 py-2">Created At</th>
+                                        <th className="px-2 py-2">Updated At</th>
                                         <th className="px-2 py-2">Actions</th>
                                     </tr>
                                 </thead>

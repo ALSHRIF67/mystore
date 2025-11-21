@@ -15,39 +15,13 @@ class ProjectController extends Controller
     public function index()
     {
         // Return paginated projects with tasks count for the Projects page
-        $allowedSorts = [
-            'id', 'name', 'description', 'due_date', 'status', 'image_path',
-            'created_by', 'updated_by', 'created_at', 'updated_at', 'tasks_count',
-        ];
-
-        $sortBy = request()->query('sort_by', 'created_at');
-        $sortDir = strtolower(request()->query('sort_dir', 'desc')) === 'asc' ? 'asc' : 'desc';
-
-        $query = Project::with(['creator', 'updater'])->withCount('tasks');
-
-        if (in_array($sortBy, $allowedSorts)) {
-            // tasks_count is produced by withCount; allow ordering by it
-            if ($sortBy === 'tasks_count') {
-                $query->orderBy('tasks_count', $sortDir);
-            } else {
-                $query->orderBy($sortBy, $sortDir);
-            }
-        } else {
-            // default ordering
-            $query->latest();
-        }
-
-        $projects = $query->paginate(10)->appends([
-            'sort_by' => $sortBy,
-            'sort_dir' => $sortDir,
-        ]);
+        $projects = Project::with(['creator', 'updater'])
+            ->withCount('tasks')
+            ->latest()
+            ->paginate(10);
 
         return Inertia::render('Project/Index', [
             'projects' => $projects,
-            'filters' => [
-                'sort_by' => $sortBy,
-                'sort_dir' => $sortDir,
-            ],
         ]);
     }
 
