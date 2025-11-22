@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class = "dark">
 <head>
         {{-- Theme initialization script: applies dark class early to avoid FOUC --}}
         <script>
