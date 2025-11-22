@@ -18,18 +18,19 @@ export default function AuthenticatedLayout({ header, children }) {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
+                               <Link href="/">
+                  <ApplicationLogo className="block h-9 w-auto fill-current  dark:text-gray-200" />
+                </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 text-white  sm:flex">
 
 
                                      <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
+
                                     Dashboard
                                 </NavLink> 
 
@@ -41,8 +42,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </NavLink> 
 
                                   <NavLink
-                                    href={route('tasks.index')}
-                                    active={route().current('tasks.index')}
+                                    href={route('task.index')}
+                                    active={route().current('task.index')}
                                 >
                                    All task
                                 </NavLink>
@@ -177,8 +178,8 @@ export default function AuthenticatedLayout({ header, children }) {
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink
-                            href={route('tasks.index')}
-                            active={route().current('tasks.index')}
+                            href={route('task.index')}
+                            active={route().current('task.index')}
                         >
                             Tasks
                         </ResponsiveNavLink>
@@ -218,8 +219,9 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             {header && (
-                <header className=" dark:bg-gray-80  ">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <header className="dark:bg-gray-1000 dark:text-white shadow">
+
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 text-white lg:px-8">
                         {header}
                     </div>
                 </header>
