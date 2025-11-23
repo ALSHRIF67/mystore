@@ -226,12 +226,13 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                                         </td>
 
                                         <td className="px-4 py-3 text-right">
-                                            <Link
-                                                href={route("projects.edit", project.id)}
-                                                className="text-blue-500 hover:underline mx-2"
-                                            >
-                                                Edit
-                                            </Link>
+                                         <Link
+    href={route("projects.edit", { project: project.id })}
+    className="text-blue-500 hover:underline mx-2"
+>
+    Edit
+</Link>
+
 
                                             <button
                                                 onClick={() => deleteProject(project)}
