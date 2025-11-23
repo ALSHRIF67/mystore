@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 
 class ProjectResource extends JsonResource
+
 {
+         public static $wrap =false;
+
     /**
      * Transform the resource into an array.
      *

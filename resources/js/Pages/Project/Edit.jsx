@@ -6,20 +6,28 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, project }) {
-  const { data, setData, post, errors, reset } = useForm({
-    image: "",
-    name: project.name || "",
-    status: project.status || "",
-    description: project.description || "",
-    due_date: project.due_date || "",
+export default function Edit({ auth, project }) {
+  const { data, setData, post, errors } = useForm({
+    image: null,
+    name: project?.name || "",
+    status: project?.status || "",
+    description: project?.description || "",
+    due_date: project?.due_date || "",
     _method: "PUT",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("projects.update", project.id));
+    // FormData ضروري عند رفع الصور
+    const formData = new FormData();
+    for (const key in data) {
+      if (data[key] !== null) {
+        formData.append(key, data[key]);
+      }
+    }
+
+    post(route("projects.update", project.id), { data: formData });
   };
 
   return (
@@ -28,12 +36,12 @@ export default function Create({ auth, project }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Edit project "{project.name}"
+            Edit Project "{project?.name || 'Project'}"
           </h2>
         </div>
       }
     >
-      <Head title="Projects" />
+      <Head title="Edit Project" />
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -41,19 +49,24 @@ export default function Create({ auth, project }) {
             <form
               onSubmit={onSubmit}
               className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
+              encType="multipart/form-data"
             >
-              {project.image_path && (
+              {/* صورة المشروع الحالية */}
+              {project?.image_path && (
                 <div className="mb-4">
-                  <img src={project.image_path} className="w-64" />
+                  <img
+                    src={project.image_path}
+                    alt="Project"
+                    className="w-64 rounded"
+                  />
                 </div>
               )}
+
+              {/* رفع صورة جديدة */}
               <div>
-                <InputLabel
-                  htmlFor="project_image_path"
-                  value="Project Image"
-                />
+                <InputLabel htmlFor="project_image" value="Project Image" />
                 <TextInput
-                  id="project_image_path"
+                  id="project_image"
                   type="file"
                   name="image"
                   className="mt-1 block w-full"
@@ -61,27 +74,28 @@ export default function Create({ auth, project }) {
                 />
                 <InputError message={errors.image} className="mt-2" />
               </div>
+
+              {/* اسم المشروع */}
               <div className="mt-4">
                 <InputLabel htmlFor="project_name" value="Project Name" />
-
                 <TextInput
                   id="project_name"
                   type="text"
                   name="name"
                   value={data.name}
                   className="mt-1 block w-full"
-                  isFocused={true}
+                  isFocused
                   onChange={(e) => setData("name", e.target.value)}
                 />
-
                 <InputError message={errors.name} className="mt-2" />
               </div>
+
+              {/* وصف المشروع */}
               <div className="mt-4">
                 <InputLabel
                   htmlFor="project_description"
                   value="Project Description"
                 />
-
                 <TextAreaInput
                   id="project_description"
                   name="description"
@@ -89,15 +103,12 @@ export default function Create({ auth, project }) {
                   className="mt-1 block w-full"
                   onChange={(e) => setData("description", e.target.value)}
                 />
-
                 <InputError message={errors.description} className="mt-2" />
               </div>
-              <div className="mt-4">
-                <InputLabel
-                  htmlFor="project_due_date"
-                  value="Project Deadline"
-                />
 
+              {/* تاريخ الانتهاء */}
+              <div className="mt-4">
+                <InputLabel htmlFor="project_due_date" value="Project Deadline" />
                 <TextInput
                   id="project_due_date"
                   type="date"
@@ -106,34 +117,36 @@ export default function Create({ auth, project }) {
                   className="mt-1 block w-full"
                   onChange={(e) => setData("due_date", e.target.value)}
                 />
-
                 <InputError message={errors.due_date} className="mt-2" />
               </div>
+
+              {/* حالة المشروع */}
               <div className="mt-4">
                 <InputLabel htmlFor="project_status" value="Project Status" />
-
                 <SelectInput
-                  name="status"
                   id="project_status"
-                  className="mt-1 block w-full"
+                  name="status"
+                  value={data.status}
                   onChange={(e) => setData("status", e.target.value)}
+                  className="mt-1 block w-full"
                 >
                   <option value="">Select Status</option>
                   <option value="pending">Pending</option>
                   <option value="in_progress">In Progress</option>
                   <option value="completed">Completed</option>
                 </SelectInput>
-
-                <InputError message={errors.project_status} className="mt-2" />
+                <InputError message={errors.status} className="mt-2" />
               </div>
+
+              {/* أزرار الإجراء */}
               <div className="mt-4 text-right">
                 <Link
                   href={route("projects.index")}
-                  className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200 mr-2"
+                  className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow hover:bg-gray-200 mr-2"
                 >
                   Cancel
                 </Link>
-                <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow hover:bg-emerald-600">
                   Submit
                 </button>
               </div>

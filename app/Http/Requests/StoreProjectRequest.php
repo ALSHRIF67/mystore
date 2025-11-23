@@ -19,10 +19,15 @@ class StoreProjectRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
-    }
+  public function rules(): array
+{
+    return [
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'due_date' => 'nullable|date',
+        'status' => 'nullable|string',
+        'image' => 'nullable|file|image|max:2048',
+    ];
+}
+
 }

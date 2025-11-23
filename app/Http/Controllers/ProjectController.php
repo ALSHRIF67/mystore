@@ -72,30 +72,17 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
-    {
-        $query = $project->tasks();
+   public function show(Project $project)
+{
+    // تحميل العلاقات الضرورية
+    $project->load(['creator', 'updater']);
 
-        $sortField = request("sort_field", 'created_at');
-        $sortDirection = request("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        if (request("status")) {
-            $query->where("status", request("status"));
-        }
+    return Inertia::render('Project/Show', [
+        'project' => new ProjectResource($project)
+    ]);
+}
 
-        $tasks = $query->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->onEachSide(1);
-        return Inertia::render('Project/Show', [
-            'project' => new ProjectResource($project),
-            'tasks' => TaskResource::collection($tasks),
-            'queryParams' => request()->query() ?: null,
-            'success' => session('success'),
-        ]);
-    }
 
     /**
      * Show the form for editing the specified resource.
