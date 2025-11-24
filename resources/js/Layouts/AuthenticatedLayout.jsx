@@ -7,52 +7,47 @@ import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
-
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="shrink-0 flex items-center">
-                               <Link href="/">
-                  <ApplicationLogo className="block h-9 w-auto fill-current  dark:text-gray-200" />
-                </Link>
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+            <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-16">
+                        <div className="flex">
+                            <div className="shrink-0 flex items-center">
+                                <Link href="/">
+                                    <ApplicationLogo className="block h-9 w-auto fill-current dark:text-gray-200" />
+                                </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 text-white  sm:flex">
-
-
-                                     <NavLink
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
-
                                     Dashboard
-                                </NavLink> 
+                                </NavLink>
 
-                                     <NavLink
+                                <NavLink
                                     href={route('projects.index')}
                                     active={route().current('projects.index')}
                                 >
                                     Project
-                                </NavLink> 
+                                </NavLink>
 
-                                  <NavLink
+                                <NavLink
                                     href={route('task.index')}
                                     active={route().current('task.index')}
                                 >
-                                   All task
+                                    All Task
                                 </NavLink>
-                                
-                                 <NavLink
-                                    href={route('users.index')}
-                                    active={route().current('users.index')}
+
+                                <NavLink
+                                    href={route('user.index')}
+                                    active={route().current('user.index')}
                                 >
-                                    user
+                                    User
                                 </NavLink>
                             </div>
                         </div>
@@ -67,7 +62,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
                                                 {user.name}
-
                                                 <svg
                                                     className="-me-0.5 ms-2 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -85,9 +79,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route('profile.edit')}
-                                        >
+                                        <Dropdown.Link href={route('profile.edit')}>
                                             Profile
                                         </Dropdown.Link>
                                         <Dropdown.Link as="button" onClick={() => {
@@ -96,18 +88,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                         }}>
                                             Toggle Theme
                                         </Dropdown.Link>
-                                       
-                                        <Dropdown.Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
-                                        >
+                                        <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Log Out
-                                        </Dropdown.Link>
-                                           <Dropdown.Link
-                                            href={route('profile.edit')}
-                                        >
-                                            Profile
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
@@ -116,11 +98,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
+                                onClick={() => setShowingNavigationDropdown(prev => !prev)}
                                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
                             >
                                 <svg
@@ -130,22 +108,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                     viewBox="0 0 24 24"
                                 >
                                     <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
+                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
+                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
@@ -157,73 +127,39 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
-                >
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route('projects.index')}
-                            active={route().current('projects.index')}
-                        >
+                        <ResponsiveNavLink href={route('projects.index')} active={route().current('projects.index')}>
                             Projects
                         </ResponsiveNavLink>
-
-                        <ResponsiveNavLink
-                            href={route('task.index')}
-                            active={route().current('task.index')}
-                        >
+                        <ResponsiveNavLink href={route('task.index')} active={route().current('task.index')}>
                             Tasks
                         </ResponsiveNavLink>
-
-                        <ResponsiveNavLink
-                            href={route('users.index')}
-                            active={route().current('users.index')}
-                        >
-                            Users
+                        <ResponsiveNavLink href={route('user.index')} active={route().current('user.index')}>
+                            User
                         </ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
                         <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
+                            <div className="text-base font-medium text-gray-800">{user.name}</div>
+                            <div className="text-sm font-medium text-gray-500">{user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">Log Out</ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
             </nav>
 
             {header && (
-        <header className="dark:bg-gray-1000 dark:text-white shadow">
-
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 text-white lg:px-8">
-                        {header}
-                    </div>
+                <header className="dark:bg-gray-1000 dark:text-white shadow">
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 text-white lg:px-8">{header}</div>
                 </header>
             )}
 
